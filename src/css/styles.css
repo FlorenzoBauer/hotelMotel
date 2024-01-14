@@ -1,6 +1,9 @@
+*{
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
 body {
   background: linear-gradient(90deg, #4CAF50, #2196F3);
-  font-family: 'Comic Sans MS', cursive, sans-serif;
   color: #fff; 
   height: 100vh;
   margin: 0;
@@ -36,6 +39,15 @@ a {
   transition: background-color 0.3s;
 }
 
+.home-container {
+  height: 100vh;
+  width: 100vw;
+}
+
+#home-background {
+  width: 100%;
+}
+
 a:hover {
   background-color: #157ac2; /* Hover color */
 }
@@ -53,9 +65,120 @@ footer {
   width: 100vw;
 }
 
-#billings-container {
-display: grid;
+.bookings-container {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: repeat(4, .5fr);
+  justify-content: center;
+  align-items: center;
 }
+
+.booking-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  margin: 20px;
+  padding: 20px;
+  background-color: #0ebacd;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  transition: box-shadow 0.3s;
+}
+
+.billings-container {
+  display: grid;
+  grid-template-columns: repeat(4, .5fr);
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.billing-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  margin: 20px;
+  padding: 20px;
+  background-color: #0ebacd;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  transition: box-shadow 0.3s;
+}
+
+.total-container {
+  background-color: #da1d1d; /* Set your desired background color */
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 20px; /* Add some margin at the bottom for separation */
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  background-color: #086434;
+  color: #fff;
+  border: 2px solid #3498db;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #2980b9;
+  color: #fff;
+}
+
+form-container {
+  width: 200px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+label {
+  font-size: 16px;
+  color: #333;
+}
+
+input {
+  width: 200px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+#submit-button {
+  width: 100px;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #055a2b;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
 
 .hidden{
   display: none;
