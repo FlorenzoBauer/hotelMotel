@@ -5,10 +5,3 @@ export const findBookings = (customer, allbookings) => {
     return customer
 }
 
-export const findOpenBookings = (date, bookings) => {
-    return bookings.map(booking => {
-        if(booking.date === date) {
-            return booking.roomNumber
-        }
-    })
-}
