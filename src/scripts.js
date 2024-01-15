@@ -22,6 +22,7 @@ const checkDate = document.querySelector('#date');
 const formView = document.querySelector('.book-a-room-container');
 const homeContainer = document.querySelector('.home-container');
 
+let arrivalDate;
 let allCustomers;
 let allBookings;
 let allRooms;
@@ -108,7 +109,9 @@ function customerObject () {
 function rendershowBillings() {
     billingsContainer.classList.remove('hidden');
     bookingsContainer.classList.add('hidden');
-
+    formView.classList.add('hidden');
+    availableRoomsContainer.classList.add('hidden');
+    
     billingsContainer.innerHTML =' ';
     
     billingsContainer.innerHTML += currentCustomer.rooms.map(room => {
@@ -124,9 +127,10 @@ function rendershowBillings() {
 
 function rendershowBookings() {
     bookingsContainer.classList.remove('hidden');
+
     billingsContainer.classList.add('hidden');
-    
-    formView.classList.remove('hidden');
+    formView.classList.add('hidden');
+    availableRoomsContainer.classList.add('hidden');
 
     bookingsContainer.innerHTML =' ';
     bookingsContainer.innerHTML += `
@@ -145,27 +149,21 @@ function rendershowBookings() {
     }).join('');
 }
 
-function submitBooking() {
-    const selectedDate = document.getElementById('date').value;
-    const availableRooms = findOpenBookings(selectedDate, allBookings, allRooms);
-
-    displayAvailableRooms(availableRooms);
-}
-
 const findBookedRooms = () => {
-    let checkinDate = checkDate.value
-   .split('-')
-   .join('/');
+    let checkInDate = checkDate.value
+    .split('-')
+    .join('/');
+    
+    let arrivalDate = checkInDate;
 
-   return allBookings.filter((booking) => booking.date === checkinDate).map((room)=> room.roomNumber)
+   return allBookings.filter((booking) => booking.date === checkInDate).map((room)=> room.roomNumber)
 }
 
 const findUnbookedRooms = (bookedRooms) => {
     return allRooms.filter((room) => !bookedRooms.includes(room.number));
-
 }
 
-const showAvailableRooms = () => { 
+const getAvailableRooms = () => { 
     const numBeds = document.getElementById('bed-number').value;
     const bookedRooms2 = findBookedRooms();
     const unbookedRooms2 = findUnbookedRooms(bookedRooms2);
@@ -175,7 +173,7 @@ const showAvailableRooms = () => {
 }
 
 function displayAvailableRooms() {
-        const result = showAvailableRooms();
+        const result = getAvailableRooms();
         formView.classList.add('hidden');
         availableRoomsContainer.classList.remove('hidden');
 
@@ -194,7 +192,7 @@ function displayAvailableRooms() {
             `).join('')}
         `;
     } else {
-        availableRoomsContainer.innerHTML += '<p>No available rooms for the selected date.</p>';
+        availableRoomsContainer.innerHTML += '<p>No available rooms.</p>';
     }
 }
 
@@ -210,6 +208,7 @@ function renderBookRoomForm() {
     bookingsContainer.classList.add('hidden');
     billingsContainer.classList.add('hidden');
     homeContainer.classList.add('hidden');
-
+    availableRoomsContainer.classList.add('hidden');
+    
     bookARoomContainer.classList.remove('hidden');  
 }
