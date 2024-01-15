@@ -8,14 +8,19 @@ import { totalSpend } from './customer';
 const bookingsButton = document.querySelector('#bookings-button');
 const billingsButton = document.querySelector('#billings-button');
 const bookRoomButton = document.querySelector('#book-room-button');
-const submitButton = document.querySelector('#submit-button');
+const homeButton = document.querySelector('#home-button');
 
+
+const availableRoomsContainer = document.querySelector('.available-room-container');
+const bookRoomFormSubmit = document.querySelector('#book-room-form');
 const bookingsCard = document.querySelectorAll('.booking-card');
 const billingCard = document.querySelectorAll('.billing-card');
 const bookingsContainer = document.querySelector('.bookings-container');
 const billingsContainer = document.querySelector('.billings-container');
 const bookARoomContainer = document.querySelector('.book-a-room-container');
-
+const checkDate = document.querySelector('#date');
+const formView = document.querySelector('.book-a-room-container');
+const homeContainer = document.querySelector('.home-container');
 
 let allCustomers;
 let allBookings;
@@ -24,13 +29,23 @@ let currentCustomer0;
 let currentCustomer;
 let bookDate;
 let bookedRoom;
+let currentDate = new Date();
 
 window.addEventListener('load', () => {
     retrieveData();
 });
 
+homeButton.addEventListener('click', () => {
+renderHomeView();
+});
+
+bookRoomFormSubmit.addEventListener('submit', (event) => {
+event.preventDefault();
+    displayAvailableRooms();
+});
+
 bookRoomButton.addEventListener('click', () => {
-renderBookRoom();
+renderBookRoomForm();
 });
 
 bookingsButton.addEventListener('click', () => {
@@ -39,10 +54,6 @@ bookingsButton.addEventListener('click', () => {
 
 billingsButton.addEventListener('click', () => {
     rendershowBillings();
-});
-
-submitButton.addEventListener('click', () => {
-submitBooking();
 });
 
 function retrieveData() {
@@ -114,6 +125,8 @@ function rendershowBillings() {
 function rendershowBookings() {
     bookingsContainer.classList.remove('hidden');
     billingsContainer.classList.add('hidden');
+    
+    formView.classList.remove('hidden');
 
     bookingsContainer.innerHTML =' ';
     bookingsContainer.innerHTML += `
@@ -122,6 +135,7 @@ function rendershowBookings() {
       </div>
     `
     bookingsContainer.innerHTML += currentCustomer.bookings.map(booking => {
+        
         return `
         <div class="booking-card">
             <p>Room Number: ${booking.roomNumber}</p>
@@ -132,14 +146,70 @@ function rendershowBookings() {
 }
 
 function submitBooking() {
-    
+    const selectedDate = document.getElementById('date').value;
+    const availableRooms = findOpenBookings(selectedDate, allBookings, allRooms);
+
+    displayAvailableRooms(availableRooms);
 }
 
-function renderBookRoom() {
+const findBookedRooms = () => {
+    let checkinDate = checkDate.value
+   .split('-')
+   .join('/');
+
+   return allBookings.filter((booking) => booking.date === checkinDate).map((room)=> room.roomNumber)
+}
+
+const findUnbookedRooms = (bookedRooms) => {
+    return allRooms.filter((room) => !bookedRooms.includes(room.number));
+
+}
+
+const showAvailableRooms = () => { 
+    const numBeds = document.getElementById('bed-number').value;
+    const bookedRooms2 = findBookedRooms();
+    const unbookedRooms2 = findUnbookedRooms(bookedRooms2);
+    
+    const result = unbookedRooms2.filter((room) => room.numBeds >= numBeds)
+    return result
+}
+
+function displayAvailableRooms() {
+        const result = showAvailableRooms();
+        formView.classList.add('hidden');
+        availableRoomsContainer.classList.remove('hidden');
+
+
+    availableRoomsContainer.innerHTML = '';
+
+    if (result.length > 0) {
+        availableRoomsContainer.innerHTML += `
+           
+            ${result.map(room => `
+                <div class="available-room-card">
+                    <p>Room Number: ${room.number}</p>
+                    <p>Room Type: ${room.roomType}</p>
+                    <p>Cost Per Night: $${room.costPerNight}</p>
+                </div>
+            `).join('')}
+        `;
+    } else {
+        availableRoomsContainer.innerHTML += '<p>No available rooms for the selected date.</p>';
+    }
+}
+
+function renderHomeView() {
     bookingsContainer.classList.add('hidden');
     billingsContainer.classList.add('hidden');
-    bookARoomContainer.classList.remove('hidden');
-   
-    
-    
+    bookARoomContainer.classList.add('hidden');
+
+    homeContainer.classList.remove('hidden');
+}
+
+function renderBookRoomForm() {
+    bookingsContainer.classList.add('hidden');
+    billingsContainer.classList.add('hidden');
+    homeContainer.classList.add('hidden');
+
+    bookARoomContainer.classList.remove('hidden');  
 }
