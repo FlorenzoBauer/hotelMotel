@@ -217,8 +217,8 @@ function rendershowBookings() {
     const futureBookings = sortedBookings.filter(booking => new Date(booking.date) >= currentDate);
     const pastBookings = sortedBookings.filter(booking => new Date(booking.date) < currentDate);
     if (futureBookings.length > 0) {
-        futureContainer.innerHtml = ''
         const futureContainer = document.querySelector('.future-bookings-container');
+        futureContainer.innerHtml = ''
         futureContainer.innerHTML += futureBookings.map(booking => {
             return `
             <article class="booking-card" tabindex="0" aria-labelledby="room-number">
