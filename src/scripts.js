@@ -218,8 +218,8 @@ function rendershowBookings() {
     const pastBookings = sortedBookings.filter(booking => new Date(booking.date) < currentDate);
     if (futureBookings.length > 0) {
         const futureContainer = document.querySelector('.future-bookings-container');
-        futureContainer.innerHtml = ''
-        futureContainer.innerHTML += futureBookings.map(booking => {
+  
+        futureContainer.innerHTML = futureBookings.map(booking => {
             return `
             <article class="booking-card" tabindex="0" aria-labelledby="room-number">
                 <p id="room-number">Room Number: ${booking.roomNumber}</p>
@@ -231,8 +231,8 @@ function rendershowBookings() {
 
     if (pastBookings.length > 0) {
         const pastContainer = document.querySelector('.past-bookings-container');
-        pastContainer.innerHTML = ''
-        pastContainer.innerHTML += pastBookings.map(booking => {
+      
+        pastContainer.innerHTML = pastBookings.map(booking => {
             return `
             <article class="booking-card" tabindex="0" aria-labelledby="room-number">
                 <p id="room-number">Room Number: ${booking.roomNumber}</p>
