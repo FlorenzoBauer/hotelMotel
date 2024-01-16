@@ -18,6 +18,12 @@ const bookARoomContainer = document.querySelector('.book-a-room-container');
 const checkDate = document.querySelector('#date');
 const formView = document.querySelector('.book-a-room-container');
 const homeContainer = document.querySelector('.home-container');
+const navBar = document.querySelector('.nav-bar');
+const loginContainer = document.querySelector('.login-container');
+
+const loginButton = document.querySelector('#login-button');
+const userName = document.querySelector('#username');
+const password = document.querySelector('#password');
 
 let allCustomers;
 let allBookings;
@@ -27,19 +33,29 @@ let currentCustomer;
 let bookDate;
 let bookedRoom;
 let currentDate = new Date();
+let customerId;
 
-window.addEventListener('load', () => {
-    retrieveData();
+const loginMoment = (event) => {
+    event.preventDefault();
+    const regex = new RegExp(/^customer\d{1,}$/);
+    if(regex.test(userName.value) && password.value === 'overlook2021') {
+        customerId = Number(userName.value.replace('customer',""));
+        retrieveData();
+    }
+    else{
+        alert('Please enter a valid username and password');
+    }
+}
+
+loginButton.addEventListener('click', (event) => {
+    loginMoment(event);
 });
 
 availableRoomsContainer.addEventListener('click', (event) => {
     if (event.target.id === 'book-button') {
-        
-        submitBooking(event);
-        showConfirmationMessage();
+        submitBooking(event)
     }
 });
-
 
 homeButton.addEventListener('click', () => {
 renderHomeView();
@@ -55,6 +71,7 @@ bookRoomFormSubmit.addEventListener('submit', (event) => {
         alert('Please fill out all form fields.');
         return
     }
+
     displayAvailableRooms();
 });
 
@@ -83,32 +100,35 @@ function retrieveData() {
             );
         })
         .then(data => {
-            console.log(data);
             allCustomers = data[0].customers;
             allBookings = data[1].bookings;
             allRooms = data[2].rooms;
-            currentCustomer0 = allCustomers[23];
+            currentCustomer0 = allCustomers[customerId - 1];
         })
-        .then(() => {
+       .then(() => {
             customerObject();
-        })
+       })
+        .then(() => {
+            renderHomeView();
+        
+       })
         .catch(err => console.log(err.message, err));
 }
 
 function submitBooking(event) {
-    event.preventDefault();
+    
     bookDate = document.querySelector('#date');
-        console.log(bookDate.value)
+        
     bookedRoom = event.target.closest('.available-room-card');
     
     if (bookedRoom) {
         const roomNumberElement = bookedRoom.querySelector('#room-number');
-        
+        console.log(roomNumberElement)
         if (roomNumberElement) {
             const roomNumber = roomNumberElement.textContent.trim().replace('Room Number: ', '');
             console.log(roomNumber);
-            sendBookedRoom('http://localhost:3001/api/v1/bookings', roomNumber, bookDate);
-            retrieveData();
+            sendBookedRoom('http://localhost:3001/api/v1/bookings', roomNumber, bookDate)
+            
         } else {
             console.error('Room number element not found in the selected room card.');
         }
@@ -124,21 +144,28 @@ const sendBookedRoom = (url, number, bookDate) => {
       date: `${bookDate.value.replaceAll('-', '/')}`,
       roomNumber: parseInt(number),
     };
-
-    return fetch(url, {
-      method: 'POST',
+    fetch(url, {
+        method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
-    });
-  };
+    })
+    .then(response => response.json())
+    .then(data => {
+        retrieveData();
+        showConfirmationMessage();
+    } )
+    .catch(err => console.log(err.message, err));
+      
+  }
 
-function customerObject () {
-    let currentCustomer1st = findBookings(currentCustomer0, allBookings);
-    let currentCustomer2nd = matchRooms(currentCustomer1st, allRooms);
-    currentCustomer = totalSpend(currentCustomer2nd);
-    console.log(currentCustomer);
+  function customerObject() {
+        let currentCustomer1st = findBookings(currentCustomer0, allBookings);
+        let currentCustomer2nd = matchRooms(currentCustomer1st, allRooms);
+        currentCustomer = totalSpend(currentCustomer2nd);
+        console.log(currentCustomer)
+   
 }
 
 function rendershowBillings() {
@@ -146,7 +173,8 @@ function rendershowBillings() {
     bookingsContainer.classList.add('hidden');
     formView.classList.add('hidden');
     availableRoomsContainer.classList.add('hidden');
-    
+    homeContainer.classList.add('hidden');
+
     billingsContainer.innerHTML =' ';
 
     const totalContainer = document.createElement('div');
@@ -181,12 +209,12 @@ function rendershowBookings() {
     billingsContainer.classList.add('hidden');
     formView.classList.add('hidden');
     availableRoomsContainer.classList.add('hidden');
+    homeContainer.classList.add('hidden');
 
     const sortedBookings = currentCustomer.bookings.sort((a, b) => new Date(a.date) - new Date(b.date));
 
     const futureBookings = sortedBookings.filter(booking => new Date(booking.date) >= currentDate);
     const pastBookings = sortedBookings.filter(booking => new Date(booking.date) < currentDate);
-    console.log(pastBookings)
     if (futureBookings.length > 0) {
         const futureContainer = document.querySelector('.future-bookings-container');
         futureContainer.innerHTML += futureBookings.map(booking => {
@@ -212,7 +240,6 @@ function rendershowBookings() {
     }
 }
 
-
 const findBookedRooms = () => {
     let checkInDate = checkDate.value
     .split('-')
@@ -237,6 +264,8 @@ const getAvailableRooms = () => {
 function displayAvailableRooms() {
     const result = getAvailableRooms();
     formView.classList.add('hidden');
+    homeContainer.classList.add('hidden');
+
     availableRoomsContainer.classList.remove('hidden');
 
     availableRoomsContainer.innerHTML = '';
@@ -272,7 +301,6 @@ function displayAvailableRooms() {
     }
 }
 
-
 function showConfirmationMessage() {
     availableRoomsContainer.innerHTML = '';
 
@@ -280,19 +308,19 @@ function showConfirmationMessage() {
         <h2 class="confirmationMessage">Thank you for your booking!</h2>
     `;
 
-   setTimeout(() => {
-    rendershowBookings();
-   }, 5000);
-
+    setTimeout(() => {
+        rendershowBookings();
+    }, 2000);
 }
-
-
 
 function renderHomeView() {
     bookingsContainer.classList.add('hidden');
     billingsContainer.classList.add('hidden');
     bookARoomContainer.classList.add('hidden');
-
+    availableRoomsContainer.classList.add('hidden');
+    loginContainer.classList.add('hidden');
+    
+    navBar.classList.remove('hidden');
     homeContainer.classList.remove('hidden');
 }
 

@@ -11,7 +11,7 @@
 
   <header>
     <h1>Hotel Motel</h1>
-    <nav>
+    <nav class="nav-bar hidden">
       <ul>
         <li><button class='btn' id="home-button">Home</button></li>
         <li><button class='btn' id="book-room-button">Book a room</button></li>
@@ -20,8 +20,21 @@
       </ul>
     </nav>
   </header>
-  <home-container class="home-container">
-    <!-- <img id="home-background" src="/Users/florenzobauer/turing/mod2/hotelMotel/src/images/home.jpg" alt="project logo" width="1708"> -->
+  <login-container class="login-container ">
+    <form id="login-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="password" required>
+
+        <button type="submit" id="login-button">Login</button>
+    </form>
+  </login-container>
+  <home-container class="home-container hidden">
+    <h2>Welcome to Hotel Motel</h2>
+    <p>Hotel Motel is a hotel booking site that allows you to book a room, view your bookings, and view your billings.</p>
+    <p>Click on the buttons above to get started.</p>
   </home-container>
 
     <booking-container class="bookings-container hidden">
