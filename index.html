@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HotelMotel</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <h1>Hotel Motel</h1>
+    <nav class="nav-bar hidden">
+      <ul>
+        <li><button class='btn' id="home-button">Home</button></li>
+        <li><button class='btn' id="book-room-button">Book a room</button></li>
+        <li><button class='btn' id="bookings-button">Bookings</button></li>
+        <li><button class='btn' id="billings-button">Billings</button></li>
+      </ul>
+    </nav>
+  </header>
+  <login-container class="login-container ">
+    <form id="login-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="password" required>
+
+        <button type="submit" id="login-button">Login</button>
+    </form>
+  </login-container>
+  <home-container class="home-container hidden">
+    <h2>Welcome to Hotel Motel</h2>
+    <p>Hotel Motel is a hotel booking site that allows you to book a room, view your bookings, and view your billings.</p>
+    <p>Click on the buttons above to get started.</p>
+  </home-container>
+
+    <booking-container class="bookings-container hidden">
+      <h3>Future Bookings</h3>
+      <future-container class="future-bookings-container">
+        
+      </future-container>
+      <h3>Past Bookings</h3>
+      <past-container class="past-bookings-container">
+        
+      </past-container>
+
+    </booking-container>
+    <billing-container class="billings-container hidden">
+      <h2>Billings View</h2>
+  
+    </billing-container>
+      <form-container class="book-a-room-container hidden">
+      <form id="book-room-form">
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" placeholder="Enter your date">
+        <label for="beds">Beds</label>
+        <input type="number" id="bed-number" name="bed-number" placeholder="Number of beds">
+        <button type="submit" id="submit-button">Submit</button>
+      </form>
+    </form-container>
+    <div class="available-room-container hidden">
+    </div>
+  <footer>
+    <p>&copy; 2024 The Hotel Motel. All rights reserved.</p>
+  </footer>
+  <script src="bundle.js"></script>
+</body>
+</html>
