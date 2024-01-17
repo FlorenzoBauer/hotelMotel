@@ -18,7 +18,6 @@ The goals were:
 
 ### Technologies
 Javascript, HTML, CSS, Webpack, Mocha & Chai, Fetch API, Le Mac. 
-challenges, wins, and any other reflections
 
 ### Victories and Struggles
 - The biggest challenges were the Fetch requests, and seeing how they work. I struggled with calling API's more than once, but was able to use the POST request to still accomplish the goals, this was the biggest challenge and required the most time. The biggest Victory was being able to use media queries and keyframes! I havn't had much to any experience with them before and it was great to start!
