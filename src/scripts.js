@@ -104,6 +104,7 @@ function retrieveData() {
             allBookings = data[1].bookings;
             allRooms = data[2].rooms;
             currentCustomer0 = allCustomers[customerId - 1];
+            
         })
        .then(() => {
             customerObject();
@@ -138,7 +139,6 @@ function submitBooking(event) {
 }
 
 const sendBookedRoom = (url, number, bookDate) => {
-    
     const data = {
       userID: parseInt(currentCustomer.id),
       date: `${bookDate.value.replaceAll('-', '/')}`,
@@ -153,7 +153,8 @@ const sendBookedRoom = (url, number, bookDate) => {
     })
     .then(response => response.json())
     .then(data => {
-        retrieveData();
+        console.log(data.newBooking)
+        currentCustomer.bookings.push(data.newBooking)
         showConfirmationMessage();
     } )
     .catch(err => console.log(err.message, err));
@@ -198,7 +199,7 @@ function rendershowBillings() {
             <p>Room Type: ${room.roomType}</p>
             <p>Cost per Night: $${room.costPerNight}</p>
         `;
-
+        
         billingsContainer.appendChild(billingCard);
     });
 }
@@ -217,7 +218,8 @@ function rendershowBookings() {
     const pastBookings = sortedBookings.filter(booking => new Date(booking.date) < currentDate);
     if (futureBookings.length > 0) {
         const futureContainer = document.querySelector('.future-bookings-container');
-        futureContainer.innerHTML += futureBookings.map(booking => {
+  
+        futureContainer.innerHTML = futureBookings.map(booking => {
             return `
             <article class="booking-card" tabindex="0" aria-labelledby="room-number">
                 <p id="room-number">Room Number: ${booking.roomNumber}</p>
@@ -229,7 +231,8 @@ function rendershowBookings() {
 
     if (pastBookings.length > 0) {
         const pastContainer = document.querySelector('.past-bookings-container');
-        pastContainer.innerHTML += pastBookings.map(booking => {
+      
+        pastContainer.innerHTML = pastBookings.map(booking => {
             return `
             <article class="booking-card" tabindex="0" aria-labelledby="room-number">
                 <p id="room-number">Room Number: ${booking.roomNumber}</p>
