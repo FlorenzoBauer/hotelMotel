@@ -1,9 +1,7 @@
 import './css/styles.css';
 import './images/turing-logo.png'
 import { fetchData } from './api-calls';
-import { findBookings } from './bookings';
-import { matchRooms } from './rooms';
-import { totalSpend } from './customer';
+import { totalSpend, matchRooms, findBookings  } from './customer';
 
 const bookingsButton = document.querySelector('#bookings-button');
 const billingsButton = document.querySelector('#billings-button');
