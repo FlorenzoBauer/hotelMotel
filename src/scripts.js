@@ -126,7 +126,7 @@ function submitBooking(event) {
         if (roomNumberElement) {
             const roomNumber = roomNumberElement.textContent.trim().replace('Room Number: ', '');
             console.log(roomNumber);
-            sendBookedRoom('http://localhost:3001/api/v1/bookings', roomNumber, bookDate)
+            sendBookedRoom('https://murmuring-plateau-60579-55a1e980f710.herokuapp.com/api/v1/bookings', roomNumber, bookDate)
             
         } else {
             console.error('Room number element not found in the selected room card.');
